@@ -1,13 +1,551 @@
-Version: 1.0
+ # Help
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+?read.table
+?lm 
+?glm
+?lowess
+"package:states"
+ ?apropos(lm)
+apropos("lm")
+library(datasets)
+?library(datasets)
+data("airquality")
+cor(airquality)
+?cor
+cov(airquality)
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+# Subsetting
+
+x<-c("a","b","c","c","d","a")
+x[1]
+x[2]
+x[5]
+x[1:4]
+x[x> "a"]
+
+u<- x>"a"
+u
+x[u]
+
+# Subsetting a Matrix
+
+x <-matrix( 1:6 , 2 , 3)
+x
+x[1,2]
+x[2,1]
+#in case of missing indices
+x[1,]
+x[,2]
+
+
+x<-matrix(1:6, 2,3)
+x
+x[1,2]
+
+x[1,2, drop=FALSE]
+
+x[2,3, drop=TRUE]
+
+x[2,3, drop=FALSE]
+
+x[1,, drop=FALSE]
+
+x[,3, drop=FALSE]
+
+
+     # Subsetting Lists
+
+x<-list(weekday= 1:4, rainprob=0.6)
+x
+
+x[1]
+
+x[2]
+
+x[[1]]
+
+x[[2]]
+
+x$ rainprob
+
+x[["rainprob"]]
+
+x["rainprob"]
+
+x<-list(weekdays=1:4 , rainprob=0.6 , item="umbrella")
+x
+
+x[c(1,3)]
+
+x[2]
+
+x[c(2,1)]
+
+            
+
+            # Subsetting Nested  Elements of a list
+
+x<-list(a=list(10,12,14), b=c(3.14,2.81))
+x
+
+x[[c(1,3)]]
+
+x[[1]][[3]]
+
+x[[c(2,1)]]
+
+x[[c(2,3)]]    # Error in x[[c(2, 3)]] : subscript out of bounds
+
+
+# Removing NA values
+
+x<-c(1, 2, NA, 4, NA, 5)
+x
+
+bad <- is.na(x)
+
+x[!bad]
+
+!bad
+
+# Removing NA values when we have multiple sets
+
+x<-c(1,2,NA,4,NA,5,NA)
+y<-c("a","b",NA,"d",NA,"f","N")
+
+good<- complete.cases(y)
+y[good]
+
+good<- complete.cases(x,y)
+good
+
+x[good]
+y[good]
+
+#air quality table example
+
+airquality[1:6, ]
+
+good<-complete.cases(airquality)
+airquality[good, ][1:6, ]
+ 
+       
+
+                        
+                           # Control Structures 
+# if,else : testing a condition
+
+if(<condition>) {
+  #do something
+} else{
+     #do something else
+}
+
+
+if(<condition1>){
+  #do something
+} else if(<condition2>){
+    #do something different
+} else {
+       #do something otherwise
+}
+
+
+# for : execute a loop for fixed no of times
+
+for (i in seq_along(x)) {
+   print(x[i])
+}
+
+for (letter in x) {
+   print(letter)
+}
+
+for(i in 1:4) print(x[i])
+
+
+
+
+# while : execute a loop while condition is TRUE
+
+count<-0
+while(count<10){
+  print(count)
+  count<- count+1
+}
+
+
+z<-5
+while(z>=3 && z<=10){
+  print(z)
+  coin<- rbinom(1, 1, 0.5)
+  if (coin==1){   #random walk
+    z< z+1
+  } else {
+    z<-z-1
+  }
+}
+
+
+
+# repeat : execute an infinite loop
+# break : break the execution of loop
+# next : skip the interaction of loop
+# return : exit a function
+
+# Control structures are mostly used while writing functions or longer expressions
+
+x<-matrix(1:6 , 2 , 3 )
+for( i in  seq_len(nrow(x))){
+      for (j in seq_len(ncol(x))){
+              print(x[i ,j])
+      }
+}
+
+
+#__________________________________________________________________________________
+
+x<-4
+y<-0
+
+if(x>3){
+    y<-10
+} else {
+     y<-0
+}
+
+y<- if (x>3){
+  10
+} else {
+  0
+}
+
+
+# Else clause is not necessary
+
+if(<condition1>){
+     #do something
+}
+if(<condition2>){
+     #do something else
+}
+
+#this iteration gives values to characters as numeric
+
+x<-c("a","b","c","d")
+
+for(i in 1:4){
+    print(x[i])
+}
+
+
+
+                        # Functions & Arguement Matching
+# mydata < rnorm 
+# sd (mydata)
+# sd (x = mydata)
+# sd (x = mydata, na.rm = FALSE)
+# sd (na.rm = FALSE, x = mydata)
+# sd (na.rm = FALSE, mydata)              ALL OF THE ABOVE ARE SAME
+?sd
+
+X= rnorm(100)
+sd(x)
+myd=rnorm(100)
+sd(myd)
+sd(x=myd)
+sd(x=myd, na.rm = FALSE)
+sd(na.rm=FALSE, x=myd)
+
+
+
+args(lm)
+# by default arguments are given below
+
+mydata<-data.frame(x=rnorm(10), y=rnorm(10))
+mydata
+
+
+#defining a function
+f<-function(a,b=1,c=2,d=NULL)
+f
+
+
+                              # Lazy Evaluation
+
+f<- function(a,b){
+  a^2
+}
+f(2)
+b<-5
+f(b)
+c<-c(3,4)
+f(c)
+
+#Error in print(b) : argument "b" is missing, with no default
+f<-function(a,b){
+  print(a)
+      print(b)
+}
+
+f(45)
+#______________________________________________________________________________________________
+
+f<-function(a=78,b=1){
+  print(a)
+      print(b)
+}
+
+f(b=45)
+f(0,5)
+f(10)
+f(,2)
+
+
+f<-function(a=78,b=1, c= NULL){
+  print(a)
+  print(b)
+  print(c)
+}
+
+f(,10,2)
+f(,10)
+
+
+
+                          # Vectorized Matrix Operations
+
+x<-matrix(1:4,2,2) ; y<-matrix( rep(10,4),2,2)
+
+x ; y
+x*y
+x/y
+x%*%y   #true matrix multiplication
+rep(10,5)
+
+
+
+
+                           # Dates and Time
+as.Date("1969-01-01")
+as.POSIXct("1969-01-01")
+as.POSIXlt("1969-01-01")
+
+x<-Sys.time()
+x
+
+p<-as.POSIXlt(x)
+names(unclass(p))
+
+p$sec
+p$mon
+p$wday
+p$min
+p$hour
+p$mday
+p$year
+p$yday
+p$isdst
+p$zone
+p$gmtoff
+
+?strptime
+
+x<-Sys.time()
+x
+#______""""x<-strptime(datestring,"%B %d %Y %H %M")""""
+
+
+
+# TIME dIFFERENCE
+x<- as.POSIXct("2012-10-25 01:00:00")
+y<- as.POSIXct("2012-10-25 06:00:00" , tz = "GMT")
+x-y
+
+
+x<- as.Date("2012-03-01")
+y<- as.Date("2012-02-28")
+x-y
+
+
+x<- as.Date("2012-01-01")
+y<-strptime("9 jan 2011 11:34:21" , "%d %b %Y:%H:%S")
+x-y    #Error in x - y : non-numeric argument to binary operator
+       #In addition: Warning message:
+       #Incompatible methods ("-.Date", "-.POSIXt") for "-" 
+class(x)
+class(y)
+
+
+
+x<-as.POSIXlt(x)
+x-y
+
+#############################################################################
+                            #LOOP FUNCTION
+#lapply :: loop over a list and evaluate a function on each element
+#sapply :: same as lapply but try to simplify the result
+#apply  :: apply function over the margins of an array
+#tapply :: apply function over the subsets of a vector
+#mapply :: Multivariate version of lapply
+#
+#A auxiliary functiom split is also useful, 
+##particularly in conjunction with lapply
+
+
+#lapply
+
+x<- list(a=1:5 , b= rnorm(10))
+x
+class(x)
+x$a
+x$b
+
+x<- list(a=1:4, b=rnorm(10), c=rnorm(20,1), d=rnorm(100,5))
+lapply(x, mean)
+sapply(x, mean)
+
+
+x<-1:4
+lapply(x, runif)
+names(x)<-c('a','b','c','d')
+
+
+x<-list(a=1:4, b=rnorm(10), c=rnorm(20,1), d=rnorm(100,5))
+lapply(x, mean)
+lapply(x,sd)
+sapply(x,sum)
+
+?runif
+
+
+x<-matrix(rnorm(200),20,10)
+names(x)
+
+x<-1:4
+names(x)<-c("a","b","c","d")
+lapply(x,runif)
+lapply(x,runif,min=50,max=100)
+
+#############################################################################3
+#Sapply
+x<-list(a=1:4, b=rnorm(10), c=rnorm(20,1), d=rnorm(100,5))
+
+lapply(x,mean)
+
+sapply(x, mean)
+
+mean(x)
+#[1] NA
+#Warning message:
+#In mean.default(x) : argument is not numeric or logical: returning NA
+
+m<-(x)
+m$a
+m$b
+m$c
+m$d
+#-------------------------------------------------------------------------------
+
+#apply
+
+str(apply(array, margin, FUNCTION, ...)
+
+x<-matrix(rnorm(200), 20, 10)
+apply(x,2,mean)
+apply(x,1,sum)
+
+rowsum=apply(x,1,sum)
+rowMeans=apply(x,1,mean)
+colSums=apply(x, 1, sum)
+colSums=apply(x, 1, mean)
+
+
+
+x<-matrix(rnorm(200),20,10)
+x
+apply(x,1,quantile,probs=c(0.25,0.75))
+?quantile
+apply(x,1,quantile)
+
+apply(x,1,quantile,probs=c(0.25,0.75))
+
+
+
+#_______________________________________________________________________________
+
+#Tapply
+str(tapply)
+#function (X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE)  
+
+?gl
+x<-c(rnorm(10), runif(10),rnorm(10,1))
+f<-gl(3,10)
+f
+tapply(x,f,mean)
+
+
+################################################################################
+?str
+                         # Data Split
+
+
+str(split)
+#function (x, f, drop = FALSE, ...)  
+
+x<-c(rnorm(10(), runif(10), rnorm(10,1))
+f<-gl(3,10)
+split(x,f)
+
+lapply(split(x,f), mean)
+
+lapply(split(x,f), sum)
+
+
+airquality
+s<-split(airquality,airquality$Month)
+s
+
+s$`6`
+
+head(s$`8`)
+
+table(airquality$Month)
+table(airquality$Ozone)
+table(airquality$Solar.R)
+table(airquality$Wind)
+table(airquality$Temp)
+table(airquality$Day)
+
+
+
+
+s<-split(airquality,airquality$Month)
+s$`9`
+
+sapply(s, function(x) colMeans(x[,c("Ozone", "Solar.R", "Wind")]))
+
+lapply(s, function(x) colMeans(x[,c("Ozone", "Solar.R", "Wind")]))
+
+fc<-function(x) colSums(x[,c("Ozone", "Solar.R", "Wind")])
+
+sapply(s, fc)
+
+sapply(s, function(x) colSums(x[,c("Ozone", "Solar.R", "Wind")],
+       na.rm=TRUE))
+
+sfc<-function(x) colSums(x[,c("Ozone", "Solar.R", "Wind")],
+                         na.rm=TRUE)
+
+sapply(s, sfc)
+      
+
+______________________________THE END___________________________________________
+
+
+
+
+
+
+
